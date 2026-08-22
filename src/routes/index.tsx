@@ -259,9 +259,7 @@ function Section({
       <div className="mx-auto max-w-[1240px] px-5 py-20 md:px-8 md:py-28">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="label-mono">
-              {index} — {title}
-            </span>
+            <span className="label-mono">{index}</span>
             <h2 className="mt-5 text-3xl font-bold md:text-5xl">{title}</h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">{lead}</p>
