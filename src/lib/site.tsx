@@ -15,7 +15,7 @@ const SiteContext = createContext<Ctx | null>(null);
 
 export function SiteProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>("ar");
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     const l = localStorage.getItem("shift-lang") as Lang | null;
@@ -60,6 +60,35 @@ export function useSite() {
   const ctx = useContext(SiteContext);
   if (!ctx) throw new Error("useSite must be used inside SiteProvider");
   return ctx;
+}
+
+/* ---------------- contact / CTA ---------------- */
+
+export const WHATSAPP_NUMBER = "201000000000";
+export const CONTACT_EMAIL = "hello@shift.software";
+
+export function inquiryMessage(lang: Lang, extra?: Record<string, string | undefined>) {
+  const lines =
+    lang === "ar"
+      ? ["السلام عليكم SHIFT 👋", "عايز أبدأ مشروع ويب معاكم."]
+      : ["Hi SHIFT 👋", "I'd like to start a web project with you."];
+  if (extra) {
+    for (const [k, v] of Object.entries(extra)) {
+      if (v) lines.push(`${k}: ${v}`);
+    }
+  }
+  return lines.join("\n");
+}
+
+export function whatsappLink(lang: Lang, extra?: Record<string, string | undefined>) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(inquiryMessage(lang, extra))}`;
+}
+
+export function mailtoLink(lang: Lang, extra?: Record<string, string | undefined>) {
+  const subject = lang === "ar" ? "طلب مشروع ويب" : "New web project inquiry";
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+    inquiryMessage(lang, extra),
+  )}`;
 }
 
 export const services = [
@@ -133,3 +162,126 @@ export const steps = [
     en: "Deploy, measure, and refine after launch.",
   },
 ];
+
+export const projectTypes = [
+  { ar: "لاندينج بيدج", en: "Landing Page" },
+  { ar: "بورتفوليو / براند", en: "Portfolio / Brand" },
+  { ar: "موقع أعمال", en: "Business Website" },
+  { ar: "متجر إلكتروني", en: "E-commerce" },
+  { ar: "منصة تعليمية", en: "Education Platform" },
+  { ar: "حل ويب مخصص", en: "Custom Web Solution" },
+];
+
+export const budgets = [
+  { ar: "أقل من 10,000 جنيه", en: "Under EGP 10,000" },
+  { ar: "10,000 – 15,000 جنيه", en: "EGP 10,000 – 15,000" },
+  { ar: "15,000 – 25,000 جنيه", en: "EGP 15,000 – 25,000" },
+  { ar: "أكثر من 25,000 جنيه", en: "EGP 25,000+" },
+  { ar: "لسه مش محدد", en: "Not decided yet" },
+];
+
+/* ---------------- testimonials ---------------- */
+
+export const testimonials = [
+  {
+    ar_name: "م. أحمد صبري",
+    en_name: "Eng. Ahmed Sabry",
+    ar_role: "صاحب ورشة نجارة، القاهرة",
+    en_role: "Woodworking workshop owner, Cairo",
+    ar: "بقيت أحسب القطع في دقايق بدل ساعات، والهدر قل بشكل واضح. الأداة بقت جزء من يوم الشغل.",
+    en: "Cutting plans now take minutes instead of hours, and waste dropped noticeably. The tool became part of our day.",
+  },
+  {
+    ar_name: "منة عبد الله",
+    en_name: "Menna Abdullah",
+    ar_role: "مؤسسة براند منتجات هاند ميد",
+    en_role: "Founder, handmade products brand",
+    ar: "أول مرة يكون عندي موقع بيشرح شغلي بدل ما أشرح كل حاجة في الرسايل. الطلبات الجدّية زادت.",
+    en: "For the first time my site explains the work instead of me repeating it in DMs. Serious orders went up.",
+  },
+  {
+    ar_name: "كريم مصطفى",
+    en_name: "Karim Mostafa",
+    ar_role: "مدير تسويق، شركة خدمات",
+    en_role: "Marketing lead, services company",
+    ar: "التعامل واضح ومنظم: مراحل، مواعيد، وتسليم شغّال. مفيش مفاجآت في النص.",
+    en: "Clear, organised process: stages, dates, a working delivery. No surprises halfway.",
+  },
+];
+
+/* ---------------- case studies ---------------- */
+
+export type Project = {
+  slug: string;
+  name: string;
+  ar_title: string;
+  en_title: string;
+  ar_tag: string;
+  en_tag: string;
+  year: string;
+  role_ar: string;
+  role_en: string;
+  ar_summary: string;
+  en_summary: string;
+  ar_challenge: string;
+  en_challenge: string;
+  ar_approach: string;
+  en_approach: string;
+  outcomes: { k: string; ar: string; en: string }[];
+  stack: string[];
+  gallery: { src: string; ar_alt: string; en_alt: string }[];
+  url?: string;
+};
+
+import kupecut1 from "@/assets/case-kupecut-1.jpg";
+import kupecut2 from "@/assets/case-kupecut-2.jpg";
+
+export const projects: Project[] = [
+  {
+    slug: "kupecut",
+    name: "KupeCut",
+    ar_title: "منصة قطع الكابينيت",
+    en_title: "Cabinet cutting platform",
+    ar_tag: "منصة إنتاج",
+    en_tag: "Production platform",
+    year: "2023 — الآن",
+    role_ar: "شريك مؤسس و CTO",
+    role_en: "Co-founder & CTO",
+    ar_summary:
+      "أداة إنتاج بيستخدمها آلاف الحرفيين والورش لحساب وتخطيط قطع الألواح بأقل هدر ممكن.",
+    en_summary:
+      "A production tool used by thousands of workshops to plan panel cuts with the least possible waste.",
+    ar_challenge:
+      "الورش كانت بتحسب القطع بالورقة والقلم أو على إكسل. النتيجة: وقت طويل، أخطاء قياس، وهدر خشب مكلف كل شهر.",
+    en_challenge:
+      "Workshops planned cuts on paper or in spreadsheets: slow, error-prone, and expensive in wasted material every month.",
+    ar_approach:
+      "بنينا محرك تحسين قطع سريع يشتغل على الموبايل، مع واجهة عربية بسيطة تناسب حد واقف في الورشة، ونتيجة قابلة للطباعة فوراً.",
+    en_approach:
+      "We built a fast cut-optimisation engine that runs on mobile, wrapped in a simple Arabic-first interface for someone standing in a workshop, with print-ready output.",
+    outcomes: [
+      { k: "~14,000", ar: "مستخدم مسجل", en: "registered users" },
+      { k: "دقايق", ar: "بدل ساعات لكل خطة قطع", en: "instead of hours per cut plan" },
+      { k: "87%+", ar: "متوسط استغلال اللوح", en: "average panel utilisation" },
+      { k: "24/7", ar: "تشغيل مستمر في الإنتاج", en: "running in production" },
+    ],
+    stack: ["React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS", "Vercel"],
+    gallery: [
+      {
+        src: kupecut2,
+        ar_alt: "واجهة تخطيط القطع في KupeCut",
+        en_alt: "KupeCut panel layout planning interface",
+      },
+      {
+        src: kupecut1,
+        ar_alt: "لوحة تحكم KupeCut للأرقام والمتابعة",
+        en_alt: "KupeCut analytics dashboard",
+      },
+    ],
+    url: "https://kupecut.com",
+  },
+];
+
+export function getProject(slug: string) {
+  return projects.find((p) => p.slug === slug);
+}
