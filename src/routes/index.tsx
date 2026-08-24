@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { t, lang } = useSite();
-  const featured = projects[0];
+  const featured = projects[0]!;
 
   return (
     <main>
