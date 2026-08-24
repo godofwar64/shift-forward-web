@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteProvider } from "@/lib/site";
 import { Header, Footer } from "@/components/SiteChrome";
+import { Toaster } from "@/components/ui/sonner";
 
 
 function NotFoundComponent() {
@@ -106,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className="dark">
+    <html lang="ar" dir="rtl">
       <head>
         <HeadContent />
       </head>
@@ -128,6 +129,7 @@ function RootComponent() {
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <Footer />
+        <Toaster position="top-center" richColors />
       </SiteProvider>
     </QueryClientProvider>
   );

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Moon, Sun, Menu, X, ArrowUpRight } from "lucide-react";
-import { useSite } from "@/lib/site";
+import { Moon, Sun, Menu, X, ArrowUpRight, MessageCircle } from "lucide-react";
+import { useSite, whatsappLink, CONTACT_EMAIL, mailtoLink } from "@/lib/site";
 
 function Logo() {
   return (
@@ -23,7 +23,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-6 px-5 md:px-8">
         <Logo />
         <nav className="hidden items-center gap-8 md:flex">
@@ -32,7 +32,7 @@ export function Header() {
               key={l.to}
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
-              className="label-mono transition-colors hover:text-foreground"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               activeProps={{ className: "text-foreground" }}
             >
               {l.label}
@@ -43,25 +43,28 @@ export function Header() {
           <button
             onClick={toggleLang}
             aria-label="Switch language"
-            className="label-mono border border-border px-2.5 py-1.5 transition-colors hover:border-primary hover:text-foreground"
+            className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-primary"
           >
             {lang === "ar" ? "EN" : "AR"}
           </button>
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="border border-border p-2 text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+            className="rounded-full border border-border p-2 text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
           >
             {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>
           <a
-            href="https://wa.me/201000000000"
-            className="hidden bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex"
+            href={whatsappLink(lang)}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-primary hidden items-center gap-2 px-5 py-2.5 text-sm font-semibold md:inline-flex"
           >
+            <MessageCircle className="size-4" />
             {t("ابدأ مشروع", "Start a project")}
           </a>
           <button
-            className="border border-border p-2 md:hidden"
+            className="rounded-full border border-border p-2 md:hidden"
             aria-label="Menu"
             onClick={() => setOpen((o) => !o)}
           >
@@ -76,11 +79,19 @@ export function Header() {
               key={l.to}
               to={l.to}
               onClick={() => setOpen(false)}
-              className="label-mono block border-b border-border px-5 py-4 hover:text-foreground"
+              className="block border-b border-border px-5 py-4 text-sm font-medium hover:text-foreground"
             >
               {l.label}
             </Link>
           ))}
+          <a
+            href={whatsappLink(lang)}
+            target="_blank"
+            rel="noreferrer"
+            className="block px-5 py-4 text-sm font-semibold text-primary"
+          >
+            {t("ابدأ مشروع على واتساب", "Start a project on WhatsApp")}
+          </a>
         </div>
       )}
     </header>
@@ -88,9 +99,9 @@ export function Header() {
 }
 
 export function Footer() {
-  const { t } = useSite();
+  const { t, lang } = useSite();
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border bg-card/60">
       <div className="mx-auto max-w-[1240px] px-5 py-14 md:px-8">
         <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
           <div>
@@ -101,6 +112,23 @@ export function Footer() {
                 "Software that moves business forward. Web solutions for businesses with real traction.",
               )}
             </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href={whatsappLink(lang)}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold"
+              >
+                <MessageCircle className="size-4" />
+                {t("واتساب", "WhatsApp")}
+              </a>
+              <a
+                href={mailtoLink(lang)}
+                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:border-primary"
+              >
+                {CONTACT_EMAIL}
+              </a>
+            </div>
           </div>
           <div className="flex flex-wrap gap-x-10 gap-y-4">
             <Link to="/work" className="label-mono hover:text-foreground">

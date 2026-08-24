@@ -116,8 +116,8 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          {errors.projectType && (
-            <span className="mt-1 block text-xs text-primary">{errors.projectType}</span>
+          {errors['projectType'] && (
+            <span className="mt-1 block text-xs text-primary">{errors['projectType']}</span>
           )}
         </label>
 
@@ -135,7 +135,7 @@ export function ContactForm() {
               </option>
             ))}
           </select>
-          {errors.budget && <span className="mt-1 block text-xs text-primary">{errors.budget}</span>}
+          {errors['budget'] && <span className="mt-1 block text-xs text-primary">{errors['budget']}</span>}
         </label>
 
         <label className="md:col-span-2">
